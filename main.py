@@ -1,5 +1,6 @@
 
 from finance.models.ollama import *
+from finance.utils.progress import *
 
 
 def main():
@@ -8,8 +9,11 @@ def main():
     model = get_ollama_model("qwen3:8b")
     print("Got Ollama model instance:", model)
 
-    ret = model.invoke("What is the stock price of Apple Inc. (AAPL) today?")
-    print("Model response:", ret)
+    #ret = model.invoke("What is the stock price of Apple Inc. (AAPL) today?")
+    #print("Model response:", ret)
+
+    inspect_object(model)
+    live_table()
 
 
 if __name__ == "__main__":
