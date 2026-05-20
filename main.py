@@ -1,6 +1,7 @@
 
 from finance.models.ollama import *
 from finance.utils.progress import *
+from finance.utils.data import *
 
 
 def main():
@@ -12,9 +13,12 @@ def main():
     #ret = model.invoke("What is the stock price of Apple Inc. (AAPL) today?")
     #print("Model response:", ret)
 
-    inspect_object(model)
-    live_table()
+    #inspect_object(model)
+    #live_table()
+    ret = get_finance_metrics("AAPL", "2026-05-20")
+    inspect_object(ret)
 
 
 if __name__ == "__main__":
     main()
+
