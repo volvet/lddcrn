@@ -3,6 +3,8 @@ import time
 import os
 from pydantic import BaseModel
 from typing import Optional
+import yfinance as yf
+import numpy as np
 
 
 class FinancialMetrics(BaseModel):
@@ -86,3 +88,13 @@ def get_finance_metrics(ticker: str, end_date: str, period: str = "ttm", limit: 
     if response.status_code != 200:
         return []
     return FinancialMetricsResponse(**response.json())
+
+def read_data(ticker, start_date, end_date, interval):
+    proxy = 'http://127.0.0.1:7897'
+    os.environ['HTTP_PROXY'] = proxy
+    os.environ['HTTPS_PROXY'] = proxy
+    df = yf.download(tickers=ticker, start=start_date, end=end_date, interval=interval)
+    df['ret'] = df['Close'].pct_change()
+    df['log_ret'] = np.log(df['Close']) - np.log(df['Close'].shift(1))
+    df = df.dropna()
+    return df
